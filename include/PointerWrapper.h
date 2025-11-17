@@ -110,7 +110,9 @@ public:
      * Should the wrapper still own the pointer after calling release()?
      */
     T* release() {
-        return nullptr;
+        T* tmp = ptr;
+        ptr = nullptr;
+        return tmp;
     }
 
     /**
