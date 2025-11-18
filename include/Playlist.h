@@ -24,6 +24,7 @@ struct PlaylistNode {
 
     ~PlaylistNode() {
         delete track;
+        track = nullptr;
     };
 };
 
