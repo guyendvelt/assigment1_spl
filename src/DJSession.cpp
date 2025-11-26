@@ -63,8 +63,23 @@ bool DJSession::load_playlist(const std::string& playlist_name)  {
 
  */
 int DJSession::load_track_to_controller(const std::string& track_name) {
-    // Your implementation here
-    return 0; // Placeholder
+    AudioTrack* track = library_service.findTrack(track_name);
+    if(!track){
+        std::cout << "[ERROR] Track :" << track_name << " not found in library" << std::endl;
+        stats.errors++;
+        return 0;
+    }
+    std::cout << "[System] Loading Track '" << track_name << "' to controller..." << std::endl;
+    int value = controller_service.loadTrackToCache(*track);
+    if(value == 1){
+        stats.cache_hits++;
+    } else if(value == 0){
+        stats.cache_misses++;
+    } else if(value == -1){
+        stats.cache_misses++;
+        stats.cache_evictions++;
+    }
+    return value;
 }
 
 /**
@@ -75,8 +90,25 @@ int DJSession::load_track_to_controller(const std::string& track_name) {
  */
 bool DJSession::load_track_to_mixer_deck(const std::string& track_title) {
     std::cout << "[System] Delegating track transfer to MixingEngineService for: " << track_title << std::endl;
-    // your implementation here
-    return false; // Placeholder
+    AudioTrack* track = controller_service.getTrackFromCache(track_title);
+    if(!track){
+        std::cout << "[ERROR] Track: " << track_title << " not found in cache" << std::endl;
+        stats.errors++;
+        return false;
+    }
+    int active_deck = mixing_service.loadTrackToDeck(*track);
+    if(active_deck == 0){
+        stats.deck_loads_a++;
+        stats.transitions++;
+    }else if(active_deck == 1) {
+        stats.deck_loads_b++;
+        stats.transitions++;
+    } else if(active_deck == -1){
+        std::cout << "[ERROR] track is NullPointer" << std::endl;
+        stats.errors++;
+        return false;
+    }
+    return true;
 }
 
 /**
@@ -109,6 +141,58 @@ void DJSession::simulate_dj_performance() {
 
     std::cout << "TODO: Implement the DJ performance simulation workflow here." << std::endl;
     // Your implementation here
+    std::vector<std::string> playlists_by_name;
+    if(play_all){
+        for(const auto& playlist : session_config.playlists){
+                std::string name = playlist.first;
+                playlists_by_name.push_back(name);
+        }   
+        //playlists_by_name is already sorted because map keys are sorted and we iterate through them
+        for(std::string playlist_name : playlists_by_name){
+            bool is_loaded = load_playlist(playlist_name);
+            if(!is_loaded){
+                std::cerr << "[ERROR] load failed" << std::endl;
+                continue;
+            } 
+            for(const std::string& title : track_titles){
+                std::cout << "\n-- Processing: " << title << std::endl;
+                stats.tracks_processed++;
+                 load_track_to_controller(title);
+                 if(!load_track_to_mixer_deck(title)){
+                    continue;
+                 }
+                 print_session_summary();
+                 stats = SessionStats();
+    }
+}
+
+    } else {
+        bool stop = false;
+        std::string curr_playlist_name;
+        while(!stop){
+            curr_playlist_name = display_playlist_menu_from_config();
+            if(curr_playlist_name.empty()){
+                stop = true;
+            }
+            bool is_loaded = load_playlist(curr_playlist_name);
+            if(!is_loaded){
+                std::cerr << "[ERROR] load failed" << std::endl;
+                continue;
+            } 
+            for(const std::string& title : track_titles){
+                std::cout << "\n-- Processing: " << title << std::endl;
+                stats.tracks_processed++;
+                 load_track_to_controller(title);
+                 if(!load_track_to_mixer_deck(title)){
+                    continue;
+                 }
+
+        }
+    } 
+            std::cout << "/nSession cancelled by user or all playlists played" << std::endl;
+        
+                 
+    }
 }
 
 
