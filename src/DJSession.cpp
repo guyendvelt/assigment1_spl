@@ -33,6 +33,7 @@ bool DJSession::load_playlist(const std::string& playlist_name)  {
     library_service.loadPlaylistFromIndices(playlist_name, it->second);
     
     if (library_service.getPlaylist().is_empty()) {
+        std::cout << "get playlist is empty" << std::endl; //todo : delete this line
         return false;
     }
     
@@ -174,9 +175,10 @@ void DJSession::simulate_dj_performance() {
             if(curr_playlist_name.empty()){
                 stop = true;
             }
+            
             bool is_loaded = load_playlist(curr_playlist_name);
             if(!is_loaded){
-                std::cerr << "[ERROR] load failed" << std::endl;
+                std::cerr << "[ERROR] Loading Failure : " << curr_playlist_name << " failed to load" << std::endl;
                 continue;
             } 
             for(const std::string& title : track_titles){
@@ -189,7 +191,7 @@ void DJSession::simulate_dj_performance() {
 
         }
     } 
-            std::cout << "/nSession cancelled by user or all playlists played" << std::endl;
+            std::cout << "\nSession cancelled by user or all playlists played" << std::endl;
         
                  
     }

@@ -6,11 +6,8 @@
 
 DJControllerService::DJControllerService(size_t cache_size)
     : cache(cache_size) {}
-/**
- * TODO: Implement loadTrackToCache method
- */
+
 int DJControllerService::loadTrackToCache(AudioTrack& track) {
-    // Your implementation here 
     if(cache.contains(track.get_title())){
         cache.get(track.get_title());
         return 1;
@@ -24,7 +21,10 @@ int DJControllerService::loadTrackToCache(AudioTrack& track) {
     }
     wrapped_track->load();
     wrapped_track->analyze_beatgrid();
-    if(cache.put(std::move(wrapped_track))){
+    std::string title = wrapped_track->get_title();
+    bool is_evicted = cache.put(std::move(wrapped_track));
+    std::cout << "[Cache INSERT] Added '" << title << "' to cache." << std::endl;
+    if(is_evicted){
         return -1;
     } 
 

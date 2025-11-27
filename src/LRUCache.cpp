@@ -21,19 +21,19 @@ bool LRUCache::put(PointerWrapper<AudioTrack> track) {
     if(track.get() == nullptr) {
         return false;
     }
-    bool is_evicted = false;
     AudioTrack* my_track = track.get();
-    for(CacheSlot& cache : slots){
-        AudioTrack* current_track = cache.getTrack();
-        if(my_track->get_title() == current_track->get_title()){
-            cache.access(access_counter);
+    for(CacheSlot& slot : slots){
+        if(slot.isOccupied()){
+        AudioTrack* current_track = slot.getTrack();
+        if(my_track && my_track->get_title() == current_track->get_title()){
+            slot.access(access_counter);
             access_counter++;
-            return is_evicted;
+            return false;
         }
     }
-
+}
+    bool is_evicted = false;
     size_t next_slot = findEmptySlot();
-   
     if(next_slot == max_size){
         evictLRU();
         next_slot = findEmptySlot();
@@ -41,10 +41,11 @@ bool LRUCache::put(PointerWrapper<AudioTrack> track) {
 
     }
     CacheSlot& target_slot = slots[next_slot];
+    access_counter++;
     target_slot.store(std::move(track), access_counter);
     return is_evicted;
+    }   
 
-}
 
 bool LRUCache::evictLRU() {
     size_t lru = findLRUSlot();

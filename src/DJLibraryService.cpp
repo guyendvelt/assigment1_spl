@@ -74,7 +74,7 @@ AudioTrack* DJLibraryService::findTrack(const std::string& track_title) {
 void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name, 
                                                const std::vector<int>& track_indices) {
     std::cout << "[INFO] Loading playlist: " << playlist_name << std::endl;
-    Playlist* playlist = new Playlist(playlist_name);
+    playlist = Playlist(playlist_name);
     for(int index : track_indices){
         int real_index = index-1;
         if(real_index >= library.size() || real_index < 0){
@@ -83,19 +83,19 @@ void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name,
         } else {
             AudioTrack* track = library[real_index]->clone().release();
             if(!track) {
-                std::cout << "[ERROR] track is Null Pointer" << std::endl;
+                std::cerr << "[ERROR] track is Null Pointer" << std::endl;
                 continue;
             } else {
                 track->load();
                 track->analyze_beatgrid();
-                playlist->add_track(track);
+                playlist.add_track(track);
                 std::cout << "Added '" << track->get_title() << "' to playlist '" << playlist_name << "'" << std::endl;
             }
         }
     }
 
                 std::cout << "[INFO] Playlist loaded: " << playlist_name 
-                    << " (" << playlist->get_track_count() << " tracks)" << std::endl;
+                    << " (" << playlist.get_track_count() << " tracks)" << std::endl;
 
 
 }
