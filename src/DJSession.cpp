@@ -171,6 +171,8 @@ void DJSession::simulate_dj_performance() {
                  if(!load_track_to_mixer_deck(title)){
                     continue;
                  }
+                 controller_service.displayCacheStatus(); 
+                 mixing_service.displayDeckStatus();
                  print_session_summary();
     }
 }
