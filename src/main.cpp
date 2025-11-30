@@ -23,7 +23,7 @@
  * Students must fix the issues to make this program run cleanly.
  */
 
-bool del = true; // hint: what is the purpose of this variable? how it changes the ownership semantics?
+bool del = false; // hint: what is the purpose of this variable? how it changes the ownership semantics?
 void test_phase_1_memory_leaks() {
     
     std::cout << "\n======== PHASE 1: MEMORY LEAK TESTING ========" << std::endl;
@@ -163,7 +163,7 @@ int main(int argc, char* argv[]) {
      * - If "-I" is provided as the first argument, run interactive DJ software
      * - If "-A" is provided as the second argument, enable play_all mode
      */
-    bool run_software = true;
+    bool run_software = false;
     bool play_all = false;
     if (argc > 1 && std::string(argv[1]) == "-I") {
         run_software = true;

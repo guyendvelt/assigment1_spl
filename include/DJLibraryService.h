@@ -13,6 +13,7 @@
 // - Build playlists from track indices referencing the library
 class DJLibraryService {
 public:
+    ~DJLibraryService();
     DJLibraryService(const Playlist& playlist);
     DJLibraryService(): playlist(), library(){}
 

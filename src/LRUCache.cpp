@@ -97,7 +97,7 @@ size_t LRUCache::findLRUSlot() const {
     int min_access_time = -1;
     for(size_t i = 0; i < slots.size(); i++){
         if(slots[i].isOccupied()){
-            if(min_access_time < 0 || slots[i].getLastAccessTime() < min_access_time){
+            if(min_access_time < 0 || slots[i].getLastAccessTime() < static_cast<uint64_t>(min_access_time)){
                 lru_index = i;
                 min_access_time = slots[i].getLastAccessTime();
             } 
