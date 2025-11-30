@@ -39,8 +39,8 @@ void DJLibraryService::buildLibrary(const std::vector<SessionConfig::TrackInfo>&
             std::cout << "[WARNING] unknown type" << std::endl;
         }
         library.push_back(track);
-        std::cout << "[INFO] Track library built: " << library.size() << " tracks loaded";
     }
+    std::clog << "[INFO] Track library built: " << library.size() << " tracks loaded" << std::endl;
   
 }
 
