@@ -99,8 +99,8 @@ void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name,
             } else {
                 track->load();
                 track->analyze_beatgrid();
-                playlist.add_track(track.get());
-                std::cout << "Added '" << track->get_title() << "' to playlist '" << playlist_name << "'" << std::endl;
+                AudioTrack* released_track = track.release();
+                playlist.add_track(released_track);
             }
         }
     }

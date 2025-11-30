@@ -88,7 +88,7 @@ Playlist& Playlist::operator=(const Playlist& other){
             last_new_node->next = new_node;
         }
 
-        last_new_node = other_curr;
+        last_new_node = new_node;
         other_curr = other_curr->next;
         track_count++;
     }
