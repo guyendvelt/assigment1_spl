@@ -33,11 +33,8 @@ void DJLibraryService::buildLibrary(const std::vector<SessionConfig::TrackInfo>&
         AudioTrack* track = nullptr;
         if(curr.type == "MP3"){
             track = new MP3Track(curr.title, curr.artists, curr.duration_seconds, curr.bpm, curr.extra_param1, curr.extra_param2);
-            std::cout << "[INFO] MP3Track created: " << curr.extra_param1 << " kbps" << std::endl;
         } else if(curr.type == "WAV") {
             track = new WAVTrack(curr.title, curr.artists, curr.duration_seconds, curr.bpm, curr.extra_param1, curr.extra_param2);
-            std::cout << "[INFO] WAVTrack created: " << curr.extra_param1 
-                      << "Hz/" << curr.extra_param1 << "bit" << std::endl;
         } else {
             std::cout << "[WARNING] unknown type" << std::endl;
         }
@@ -95,14 +92,14 @@ void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name,
             std::cout << "[WARNING] Invalid Track Index" << index << std::endl;
             continue;
         } else {
-            AudioTrack* track = library[real_index]->clone().release();
+            PointerWrapper<AudioTrack> track = library[real_index]->clone();
             if(!track) {
                 std::cerr << "[ERROR] track is Null Pointer" << std::endl;
                 continue;
             } else {
                 track->load();
                 track->analyze_beatgrid();
-                playlist.add_track(track);
+                playlist.add_track(track.get());
                 std::cout << "Added '" << track->get_title() << "' to playlist '" << playlist_name << "'" << std::endl;
             }
         }
