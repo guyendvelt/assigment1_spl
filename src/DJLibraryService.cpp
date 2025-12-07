@@ -117,9 +117,9 @@ void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name,
 std::vector<std::string> DJLibraryService::getTrackTitles() const {
     std::vector<std::string> titles; 
     std::vector<AudioTrack*> tracks = playlist.getTracks();
-    for(AudioTrack* track : tracks){
-        if(track){
-            titles.push_back(track->get_title());
+    for (size_t i = tracks.size() - 1; i >= 0; i--){
+        if(tracks[i]){
+            titles.push_back(tracks[i]->get_title());
         }
     }
     return titles;

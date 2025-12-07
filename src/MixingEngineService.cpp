@@ -47,10 +47,10 @@ int MixingEngineService::loadTrackToDeck(const AudioTrack& track) {
     
     int target_deck_index = 1 - active_deck;
     std::cout << "[Deck Switch] Target deck: " << target_deck_index << std::endl;
-    // if(decks[target_deck_index]){
-    //     delete decks[target_deck_index];
-    //     decks[target_deck_index] = nullptr;
-    // }
+    if(decks[target_deck_index]){
+        delete decks[target_deck_index];
+        decks[target_deck_index] = nullptr;
+    }
     wrapped_track->load();
     wrapped_track->analyze_beatgrid();
     if(decks[active_deck] != nullptr && auto_sync){
@@ -63,12 +63,12 @@ int MixingEngineService::loadTrackToDeck(const AudioTrack& track) {
     decks[target_deck_index] = released_track;
     std::cout << "[Load Complete] '" << released_track->get_title() 
               << "' is now loaded on deck " << target_deck_index << std::endl;
-    if(decks[active_deck] != nullptr){
-        std::cout << "[Unload] Unloading previous deck " << active_deck 
-                  << " (" << decks[active_deck]->get_title() << ")" << std::endl;
-        delete decks[active_deck];
-        decks[active_deck] = nullptr;
-    }
+    // if(decks[active_deck] != nullptr){
+    //     std::cout << "[Unload] Unloading previous deck " << active_deck 
+    //               << " (" << decks[active_deck]->get_title() << ")" << std::endl;
+    //     delete decks[active_deck];
+    //     decks[active_deck] = nullptr;
+    // }
     active_deck = target_deck_index;
     std::cout << "[Active Deck] Switched to deck " << active_deck << std::endl;
     return target_deck_index;
