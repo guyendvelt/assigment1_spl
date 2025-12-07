@@ -79,7 +79,7 @@ int DJSession::load_track_to_controller(const std::string& track_name) {
         stats.errors++;
         return 0;
     }
-    std::cout << "[System] Loading Track '" << track_name << "' to controller..." << std::endl;
+    std::cout << "[System] Loading track '" << track_name << "' to controller..." << std::endl;
     int value = controller_service.loadTrackToCache(*track);
     if(value == 1){
         stats.cache_hits++;
@@ -148,8 +148,6 @@ void DJSession::simulate_dj_performance() {
     std::cout << "Auto Sync: " << (session_config.auto_sync ? "enabled" : "disabled") << std::endl;
     std::cout << "Cache Capacity: " << session_config.controller_cache_size << " slots (LRU policy)" << std::endl;
     std::cout << "\n--- Processing Tracks ---" << std::endl;
-
-    std::cout << "TODO: Implement the DJ performance simulation workflow here." << std::endl;
     // Your implementation here
     std::vector<std::string> playlists_by_name;
     if(play_all){
@@ -165,16 +163,16 @@ void DJSession::simulate_dj_performance() {
                 continue;
             } 
             for(const std::string& title : track_titles){
-                std::cout << "\n-- Processing: " << title << std::endl;
+                std::cout << "\n--- Processing: " << title <<  " ---" << std::endl;
                 stats.tracks_processed++;
                  load_track_to_controller(title);
+                 controller_service.displayCacheStatus(); 
                  if(!load_track_to_mixer_deck(title)){
                     continue;
                  }
-                 controller_service.displayCacheStatus(); 
                  mixing_service.displayDeckStatus();
-                 print_session_summary();
     }
+            print_session_summary();
 }
 
     } else {
@@ -203,10 +201,11 @@ void DJSession::simulate_dj_performance() {
 
         }
     } 
-            std::cout << "\nSession cancelled by user or all playlists played" << std::endl;
+            
         
                  
     }
+    std::cout << "\nSession cancelled by user or all playlists played." << std::endl;
 }
 
 

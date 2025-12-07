@@ -10,7 +10,7 @@ MixingEngineService::MixingEngineService()
      : decks(), active_deck(1), auto_sync(false), bpm_tolerance(0)
 {
     // Your implementation here
-    std::cout << "[MixingEngineService] Initialized with 2 empty decks" << std::endl;
+    std::cout << "[MixingEngineService] Initialized with 2 empty decks." << std::endl;
     decks[0] = nullptr;
     decks[1] = nullptr;
 }
@@ -119,9 +119,13 @@ void MixingEngineService::sync_bpm(const PointerWrapper<AudioTrack>& track) cons
     // Your implementation here
     if(decks[active_deck] && track){
         double average_bpm = (track->get_bpm() + decks[active_deck]->get_bpm()) / 2 ;
+        double original_bpm = track->get_bpm();
+
         track->set_bpm(average_bpm);
-        std::cout << "[Sync BPM] Syncing BPM from " << track->get_bpm()
+        std::cout << "[Sync BPM] Syncing BPM from " << original_bpm
               << " to " << average_bpm << std::endl;
-    } 
+    } else {
+        std::cout << "[Sync BPM] Cannot sync - one of the decks is empty." << std::endl;
+    }
     
 }

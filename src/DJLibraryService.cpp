@@ -40,7 +40,7 @@ void DJLibraryService::buildLibrary(const std::vector<SessionConfig::TrackInfo>&
         }
         library.push_back(track);
     }
-    std::clog << "[INFO] Track library built: " << library.size() << " tracks loaded" << std::endl;
+    std::cout << "[INFO] Track library built: " << library.size() << " tracks loaded" << std::endl;
   
 }
 
@@ -117,7 +117,7 @@ void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name,
 std::vector<std::string> DJLibraryService::getTrackTitles() const {
     std::vector<std::string> titles; 
     std::vector<AudioTrack*> tracks = playlist.getTracks();
-    for (size_t i = tracks.size() - 1; i >= 0; i--){
+    for (int i = tracks.size() - 1; i >= 0; i--){
         if(tracks[i]){
             titles.push_back(tracks[i]->get_title());
         }

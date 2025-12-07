@@ -23,7 +23,7 @@ int DJControllerService::loadTrackToCache(AudioTrack& track) {
     wrapped_track->analyze_beatgrid();
     std::string title = wrapped_track->get_title();
     bool is_evicted = cache.put(std::move(wrapped_track));
-    std::cout << "[Cache INSERT] Added '" << title << "' to cache." << std::endl;
+    // std::cout << "[Cache INSERT] Added '" << title << "' to cache." << std::endl;
     if(is_evicted){
         return -1;
     } 

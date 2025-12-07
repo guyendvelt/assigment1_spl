@@ -16,16 +16,16 @@ void WAVTrack::load() {
     std::cout << "[WAVTrack::load] Loading WAV: \"" << title << "\" at " 
               << sample_rate << "Hz/" << bit_depth << "bit (uncompressed)..." << std::endl;
     long long estimated_size = (long long)duration_seconds * sample_rate * (bit_depth / 8) * 2;
-    std::cout << "  -> Estimated file size: " << estimated_size << " bytes" << std::endl;
-    std::cout << "  -> Fast loading due to uncompressed format." << std::endl;
+    std::cout << "  → Estimated file size: " << estimated_size << " bytes" << std::endl;
+    std::cout << "  → Fast loading due to uncompressed format." << std::endl;
 }
 
 void WAVTrack::analyze_beatgrid() {
     std::cout << "[WAVTrack::analyze_beatgrid] Analyzing beat grid for: \"" << title << "\"\n";
     int estimated_beats = (duration_seconds / 60.0) * bpm;
     double precision_factor = 1.0;
-    std::cout << "  -> Estimated beats: " << estimated_beats 
-              << "  -> Precision factor: " << precision_factor 
+    std::cout << "  → Estimated beats: " << estimated_beats 
+              << "  → Precision factor: " << precision_factor 
               << " (uncompressed audio)\n";
 }
 
