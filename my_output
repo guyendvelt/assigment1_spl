@@ -367,6 +367,7 @@ Added 'Drum's A Weapon' to playlist 'armin_van_buuren_ASOT_1250'
   → Load complete.
 [MP3Track::analyze_beatgrid] Analyzing beat grid for: "Right Back"
   → Estimated beats: 779  → Compression precision factor: 0.8
+[Sync BPM] Cannot sync - one of the decks is empty.
 [Load Complete] 'Right Back' is now loaded on deck 0
 [Active Deck] Switched to deck 0
 
@@ -2541,7 +2542,6 @@ Deck B loads: 29
 Transitions: 58
 Errors: 0
 === Session Complete ===
-
 Session cancelled by user or all playlists played.
 ============= INTERACTIVE SESSION ENDED =============
 

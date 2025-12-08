@@ -205,7 +205,7 @@ void DJSession::simulate_dj_performance() {
         
                  
     }
-    std::cout << "\nSession cancelled by user or all playlists played." << std::endl;
+    std::cout << "Session cancelled by user or all playlists played." << std::endl;
 }
 
 
